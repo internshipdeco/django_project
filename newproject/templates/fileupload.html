@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Title</title>
 </head>
 <body>
+<div class="container">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" style="display:inline">
+    Filter:
+    <input type="radio" id="Yes" name="filter_selection" value="True" onclick="text_show(this.value);">
+    <label for="Yes">YES</label>
 
+    <input id="filter_value" name="filter_name" type="text" style="display:none">
+
+    <input type="radio" id="No" name="filter_selection" value="False" checked onclick="text_show(this.value);">
+    <label for="No">NO</label>
+
+
+    <button type="submit">Upload</button>
+  </form>
+
+ {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+</div>
+
+<script>
+    function text_show(value){
+    var filter = document.getElementById("filter_value");
+    if (value == "True"){
+
+        if (filter.style.display === "none"){
+            filter.style.display = "inline";
+            }
+            }
+    else{
+            //alert(value);
+            filter.style.display = "none";
+        }
+
+}
+</script>
 </body>
 </html>
