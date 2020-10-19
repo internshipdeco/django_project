@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>Title</title>
+    <title>JSON TO CSV</title>
 </head>
 <body>
 <div class="container">
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <H3> Upload Your Json:</H3>
+
     <input type="file" name="myfile" style="display:inline">
     Filter:
     <input type="radio" id="Yes" name="filter_selection" value="True" onclick="text_show(this.value);">
@@ -23,6 +25,9 @@
     <input type="radio" id="No" name="filter_selection" value="False" checked onclick="text_show(this.value);">
     <label for="No">NO</label>
 
+    Pic Url:
+
+    <input id="pic_url" name="picurl_name" type="text" value="https://d3kl9es5azf7m3.cloudfront.net/11cimages/player/default/00.png">
 
     <button type="submit">Upload</button>
   </form>

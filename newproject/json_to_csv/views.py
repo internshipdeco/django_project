@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import json
 import os, shutil
 
-input_folder = r"C:\Users\SHRIKRISHNA\PycharmProjects\django_project\newproject\input_file"
+input_folder = r"C:\Users\SHRIKRISHNA\PycharmProjects\django_project\input_file"
 out_folder = r"C:\Users\SHRIKRISHNA\PycharmProjects\django_project\Done"
 import pandas as pd
 # Create your views here.
@@ -15,7 +15,7 @@ def index(request):
         myfilter = request.POST["filter_selection"]
         filter_value = request.POST["filter_name"]
         print(myfile.name, myfilter, filter_value)
-        fs = FileSystemStorage(location=r"input_file")
+        fs = FileSystemStorage(location=r"C:\Users\SHRIKRISHNA\PycharmProjects\django_project\input_file")
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         #print(filename)
@@ -24,7 +24,7 @@ def index(request):
                 with open(os.path.join(input_folder, f_name)) as f:
                     json_data = json.load(f)
         #print(json_data)
-        img_url = "https://d3kl9es5azf7m3.cloudfront.net/11cimages/player/default/00.png"
+        img_url = request.POST["picurl_name"]
         finaldf = pd.DataFrame()
         for i, player_details in enumerate(json_data["data"]["site"]["tour"]["match"]["players"]):
             # dict = {}
@@ -63,14 +63,14 @@ def index(request):
                     temp.append(string.split()[index])
                 else:
                     temp.append(string.split()[index][0:1].upper())
-
+            temp.append(string.split()[-1])
             return " ".join(temp)
 
         finaldf["ShortName"] = finaldf.apply(lambda row: scname(row["name"]), axis=1)
         if myfilter == "True":
              finaldf = finaldf[finaldf["squad"]==filter_value]
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename='+myfile.name+'.csv'
+        response['Content-Disposition'] = 'attachment; filename='+myfile.name.split(".")[0]+'.csv'
         finaldf.to_csv(path_or_buf=response, index=False)
         #finaldf.to_csv(r"C:\Users\SHRIKRISHNA\Desktop\arun11challeger\NOR vs SER.csv", index=False)
 
